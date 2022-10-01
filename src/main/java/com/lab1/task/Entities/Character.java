@@ -10,7 +10,7 @@ public class Character {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -18,7 +18,7 @@ public class Character {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "book_has_character",
             joinColumns = @JoinColumn(name = "character_id"),
@@ -58,11 +58,11 @@ public class Character {
         this.books = books;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

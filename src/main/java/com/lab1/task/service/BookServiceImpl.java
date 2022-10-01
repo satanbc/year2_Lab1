@@ -7,6 +7,7 @@ import com.lab1.task.Entities.Book;
 import com.lab1.task.dao.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BookServiceImpl implements BookService {
@@ -26,17 +27,17 @@ public class BookServiceImpl implements BookService {
 	@Override
 	public Book findById(int theId) {
 		Optional<Book> result = bookRepository.findById(theId);
-		
+
 		Book theBook = null;
-		
+
 		if (result.isPresent()) {
 			theBook = result.get();
 		}
 		else {
-			// we didn't find the employee
+			// we didn't find the book
 			throw new RuntimeException("Did not find book id - " + theId);
 		}
-		
+
 		return theBook;
 	}
 
@@ -46,7 +47,8 @@ public class BookServiceImpl implements BookService {
 	}
 
 	@Override
-	public void deleteById(int theId) {bookRepository.deleteById(theId);
+	public void deleteById(int theId) {
+		bookRepository.deleteById(theId);
 	}
 
 }

@@ -11,7 +11,7 @@ public class Author {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "id")
-    private String id;
+    private int id;
 
     @Column(name = "name")
     private String name;
@@ -19,10 +19,10 @@ public class Author {
     @Column(name = "date_of_birth")
     private String date_of_birth;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.MERGE)
     private List<Series> series;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.MERGE)
     private List<Book> books;
 
     public Author() {
@@ -33,11 +33,11 @@ public class Author {
         this.date_of_birth = date_of_birth;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
