@@ -18,10 +18,6 @@ public class Character {
     @Column(name = "role")
     private String role;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "series_id")
-    private Series series;
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_has_character",
@@ -60,14 +56,6 @@ public class Character {
 
     public void setBooks(List<Book> books) {
         this.books = books;
-    }
-
-    public Series getSeries() {
-        return series;
-    }
-
-    public void setSeries(Series series) {
-        this.series = series;
     }
 
     public String getId() {

@@ -24,9 +24,6 @@ public class Series {
     @OrderBy("release_year")
     private List<Book> books;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "series", cascade = CascadeType.ALL)
-    private List<Character> characters;
-
     public Series() {
     }
 
@@ -66,28 +63,12 @@ public class Series {
         this.books = books;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
     public void addBook(Book theBook){
 
         if (books == null){
             books = new ArrayList<>();
         }
         books.add(theBook);
-    }
-
-    public void addCharacter(Character theCharacter){
-
-        if (characters == null){
-            characters = new ArrayList<>();
-        }
-        characters.add(theCharacter);
     }
 
     @Override

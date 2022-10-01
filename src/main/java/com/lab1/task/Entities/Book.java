@@ -84,14 +84,6 @@ public class Book {
         this.description = description;
     }
 
-    public List<Character> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<Character> characters) {
-        this.characters = characters;
-    }
-
     public Author getAuthor() {
         return author;
     }
@@ -106,6 +98,14 @@ public class Book {
 
     public void setSeries(Series series) {
         this.series = series;
+    }
+
+    public List<Character> getCharacters() {
+        return characters;
+    }
+
+    public void setCharacters(List<Character> characters) {
+        this.characters = characters;
     }
 
     public String getId() {

@@ -44,29 +44,33 @@ public class TaskApplication {
 			session.save(tempSeries);
 			System.out.println("Saved series: " + tempAuthor.getSeries());
 
+			Book tempBook1 = new Book("Harry Potter and the Philosopher's Stone","1997","223","fantasy novel written by British author J. K. Rowling");
+			Book tempBook2 = new Book("Harry Potter and the Chamber of Secrets","1999","480","fantasy novel written by British author J. K. Rowling and the second novel in the Harry Potter series");
 
-			Book tempBook = new Book("Harry Potter and the Philosopher's Stone","1997","223","fantasy novel written by British author J. K. Rowling");
-
-			tempAuthor.addBook(tempBook);
-			tempBook.setAuthor(tempAuthor);
-
-			tempSeries.addBook(tempBook);
-			tempBook.setSeries(tempSeries);
-
-			session.save(tempBook);
-
+			tempAuthor.addBook(tempBook1);
+			tempBook1.setAuthor(tempAuthor);
+			tempAuthor.addBook(tempBook2);
+			tempBook2.setAuthor(tempAuthor);
 
 			Character tempCharacter1 = new Character("Harry Potter","main");
 			Character tempCharacter2 = new Character("Ron Weasley","secondary");
 
-			tempCharacter1.setSeries(tempSeries);
-			tempCharacter2.setSeries(tempSeries);
+			tempBook1.addCharacter(tempCharacter1);
+			tempBook1.addCharacter(tempCharacter2);
 
-			tempSeries.addCharacter(tempCharacter1);
-			tempSeries.addCharacter(tempCharacter2);
+			tempBook2.addCharacter(tempCharacter1);
+			tempBook2.addCharacter(tempCharacter2);
 
-			tempBook.addCharacter(tempCharacter1);
-			tempBook.addCharacter(tempCharacter2);
+			if (tempBook1.getCharacters().get(0).getRole().equals(tempBook2.getCharacters().get(0).getRole()) && (tempBook1.getCharacters().get(0).getRole().equals("main") || tempBook1.getCharacters().get(0).getRole().equals("secondary"))){
+				tempSeries.addBook(tempBook1);
+				tempSeries.addBook(tempBook2);
+
+				tempBook1.setSeries(tempSeries);
+				tempBook2.setSeries(tempSeries);
+			}
+
+			session.save(tempBook1);
+			session.save(tempBook2);
 
 			session.save(tempCharacter1);
 			session.save(tempCharacter2);
@@ -77,7 +81,6 @@ public class TaskApplication {
 		}
 		finally {
 
-			// add clean up code
 			session.close();
 
 			factory.close();
