@@ -1,19 +1,24 @@
 package com.lab1.task.Entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
 @Entity
-@Table (name = "books")
+@Table (name = "book")
 public class Book {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
+    private String id;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "release_date")
-    private String release_date;
+    @Column(name = "release_year")
+    private String release_year;
 
     @Column(name = "page_count")
     private String page_count;
@@ -22,26 +27,27 @@ public class Book {
     private String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "authors_name")
-    @JoinColumn(name = "series_name")
-    private Book book;
+    @JoinColumn(name = "author_id")
+    private Author author;
 
-    @ManyToMany(mappedBy = "books",
-            fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "series_id")
+    private Series series;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
-            name = "books_has_characters",
-            joinColumns = @JoinColumn(name = "books_name"),
-            inverseJoinColumns = {@JoinColumn(name = "characters_name"), @JoinColumn(name = "characters_role")}
+            name = "book_has_character",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "character_id")
     )
-    private List<Characters> characters;
+    private List<Character> characters;
 
     public Book() {
     }
 
-    public Book(String name, String release_date, String page_count, String description) {
+    public Book(String name, String release_year, String page_count, String description) {
         this.name = name;
-        this.release_date = release_date;
+        this.release_year = release_year;
         this.page_count = page_count;
         this.description = description;
     }
@@ -54,12 +60,12 @@ public class Book {
         this.name = name;
     }
 
-    public String getRelease_date() {
-        return release_date;
+    public String getRelease_year() {
+        return release_year;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
+    public void setRelease_year(String release_date) {
+        this.release_year = release_date;
     }
 
     public String getPage_count() {
@@ -78,27 +84,52 @@ public class Book {
         this.description = description;
     }
 
-    public Book getBook() {
-        return book;
-    }
-
-    public void setBook(Book book) {
-        this.book = book;
-    }
-
-    public List<Characters> getCharacters() {
+    public List<Character> getCharacters() {
         return characters;
     }
 
-    public void setCharacters(List<Characters> characters) {
+    public void setCharacters(List<Character> characters) {
         this.characters = characters;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public Series getSeries() {
+        return series;
+    }
+
+    public void setSeries(Series series) {
+        this.series = series;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void addCharacter(Character theCharacter){
+
+        if (characters == null){
+            characters = new ArrayList<>();
+        }
+        characters.add(theCharacter);
     }
 
     @Override
     public String toString() {
         return "Book{" +
-                "name='" + name + '\'' +
-                ", release_date='" + release_date + '\'' +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", release_date='" + release_year + '\'' +
                 ", page_count='" + page_count + '\'' +
                 ", description='" + description + '\'' +
                 '}';

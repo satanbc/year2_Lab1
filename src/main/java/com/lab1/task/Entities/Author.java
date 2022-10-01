@@ -1,33 +1,44 @@
 package com.lab1.task.Entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "authors")
-public class Authors {
+@Table(name = "author")
+public class Author {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "id")
+    private String id;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "date_of_birth")
     private String date_of_birth;
 
-    @OneToMany(mappedBy = "authors",
-                cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Series> series;
 
-    @OneToMany(mappedBy = "authors",
-            cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books;
 
-    public Authors() {
+    public Author() {
     }
 
-    public Authors(String name, String date_of_birth) {
+    public Author(String name, String date_of_birth) {
         this.name = name;
         this.date_of_birth = date_of_birth;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,9 +75,26 @@ public class Authors {
 
     @Override
     public String toString() {
-        return "Authors{" +
-                "name='" + name + '\'' +
+        return "Author{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", date_of_birth='" + date_of_birth + '\'' +
                 '}';
+    }
+
+    public void addSeries(Series theSeries){
+
+        if (series == null){
+            series = new ArrayList<>();
+        }
+        series.add(theSeries);
+    }
+
+    public void addBook(Book theBook){
+
+        if (books == null){
+            books = new ArrayList<>();
+        }
+        books.add(theBook);
     }
 }
