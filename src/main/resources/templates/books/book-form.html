@@ -20,6 +20,9 @@
         <hr>
         <form action="#" th:action="@{/books/save}"
                          th:object="${book}" method="POST">
+
+            <input type="hidden" th:field="*{id}" />
+
             <input type="text" th:field="*{name}"
                     class="form-control mb-4 col-4" placeholder="Name">
             <input type="text" th:field="*{release_year}"
@@ -32,7 +35,6 @@
                    class="form-control mb-4 col-4" placeholder="Author">
 
             <hr>
-
             <b>Type the characters</b>
             <br><br>
             <table>

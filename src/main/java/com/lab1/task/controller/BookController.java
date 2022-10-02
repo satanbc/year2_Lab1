@@ -15,12 +15,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.query.Query;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NoResultException;
 
@@ -60,6 +58,16 @@ public class BookController {
 		for(int i = 1; i <= 3; i++){
 			theBook.addCharacter(new Character());
 		}
+
+		theModel.addAttribute("book", theBook);
+
+		return "books/book-form";
+	}
+
+	@GetMapping("/showFormForUpdate")
+	public String showFormForUpdate(@RequestParam("bookId") int theId, Model theModel){
+
+		Book theBook = bookService.findById(theId);
 
 		theModel.addAttribute("book", theBook);
 
@@ -149,6 +157,36 @@ public class BookController {
 		theBook.setSeries(series);
 
 		bookService.save(theBook);
+
+		return "redirect:/books/list";
+	}
+
+	@GetMapping("/delete")
+	public  String delete(@RequestParam("bookId") int theId){
+
+		Book theBook = bookService.findById(theId);
+		Series theSeries = seriesService.findById(theBook.getSeries().getId());
+		Author theAuthor = authorService.findById(theBook.getAuthor().getId());
+		List<Character> characterList = theBook.getCharacters();
+
+		int seriesId = theBook.getSeries().getId();
+		int authorId = theBook.getAuthor().getId();
+
+		bookService.deleteById(theId);
+
+		if (theSeries.getBooks().size() < 1)
+			seriesService.deleteById(seriesId);
+
+		if (theAuthor.getBooks().size() < 1)
+			authorService.deleteById(authorId);
+
+		try{
+			for (Character character : characterList){
+				characterService.deleteById(character.getId());
+			}
+		}catch (EmptyResultDataAccessException e){
+
+		}
 
 		return "redirect:/books/list";
 	}
