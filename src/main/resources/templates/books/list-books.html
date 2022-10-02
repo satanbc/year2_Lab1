@@ -39,7 +39,7 @@ xmlns="http://www.w3.org/1999/xhtml">
 		</thead>
 
 		<tbody>
-			<tr th:each="tempBook : ${books}">
+			<tr th:each="tempBook : *{books}">
 			
 				<td th:text="${tempBook.name}"></td>
 				<td th:text="${tempBook.author.name}"></td>

@@ -16,9 +16,6 @@ public class Author {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "date_of_birth")
-    private String date_of_birth;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "author", cascade = CascadeType.MERGE)
     private List<Series> series;
 
@@ -28,9 +25,8 @@ public class Author {
     public Author() {
     }
 
-    public Author(String name, String date_of_birth) {
+    public Author(String name) {
         this.name = name;
-        this.date_of_birth = date_of_birth;
     }
 
     public int getId() {
@@ -47,14 +43,6 @@ public class Author {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDate_of_birth() {
-        return date_of_birth;
-    }
-
-    public void setDate_of_birth(String date_of_birth) {
-        this.date_of_birth = date_of_birth;
     }
 
     public List<Series> getSeries() {
@@ -78,7 +66,6 @@ public class Author {
         return "Author{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
-                ", date_of_birth='" + date_of_birth + '\'' +
                 '}';
     }
 

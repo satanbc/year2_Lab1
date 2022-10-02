@@ -17,6 +17,7 @@
 
     <div class="container">
         <h3>Add a book</h3>
+        <hr>
         <form action="#" th:action="@{/books/save}"
                          th:object="${book}" method="POST">
             <input type="text" th:field="*{name}"
@@ -29,6 +30,27 @@
                    class="form-control mb-4 col-4" placeholder="Description">
             <input type="text" th:field="*{author.name}"
                    class="form-control mb-4 col-4" placeholder="Author">
+
+            <hr>
+
+            <b>Type the characters</b>
+            <br><br>
+            <table>
+                <thead>
+                <tr>
+                    <th> Name</th>
+                    <th> Role</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="character, itemStat : *{characters}">
+                    <td><input th:field="*{characters[__${itemStat.index}__].name}" /></td>
+                    <td><input th:field="*{characters[__${itemStat.index}__].role}" /></td>
+                </tr>
+                </tbody>
+            </table>
+
+            <hr>
 
             <button type="submit" class="btn btn-info col-2">Save</button>
         </form>

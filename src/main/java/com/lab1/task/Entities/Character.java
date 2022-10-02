@@ -18,7 +18,7 @@ public class Character {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(
             name = "book_has_character",
             joinColumns = @JoinColumn(name = "character_id"),
