@@ -224,7 +224,11 @@ public class BookController {
 		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
 		Sorting sort = new Sorting(booksArray);
 
-		sort.quickSort(booksArray, 0, booksArray.length-1);
+		try {
+			sort.quickSort(booksArray, 0, booksArray.length-1);
+		}catch (ArrayIndexOutOfBoundsException e){
+
+		}
 
 		theModel.addAttribute("booksArray", booksArray);
 
