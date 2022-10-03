@@ -26,6 +26,9 @@ public class Book {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "rating")
+    private int rating;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "author_id")
     private Author author;
@@ -45,11 +48,13 @@ public class Book {
     public Book() {
     }
 
-    public Book(String name, String release_year, String page_count, String description) {
+    public Book(int id, String name, String release_year, String page_count, String description, int rating) {
+        this.id = id;
         this.name = name;
         this.release_year = release_year;
         this.page_count = page_count;
         this.description = description;
+        this.rating = rating;
     }
 
     public String getName() {
@@ -116,6 +121,14 @@ public class Book {
         this.id = id;
     }
 
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
     public void addCharacter(Character theCharacter){
 
         if (characters == null){
@@ -127,11 +140,12 @@ public class Book {
     @Override
     public String toString() {
         return "Book{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
-                ", release_date='" + release_year + '\'' +
+                ", release_year='" + release_year + '\'' +
                 ", page_count='" + page_count + '\'' +
                 ", description='" + description + '\'' +
+                ", rating=" + rating +
                 '}';
     }
 }

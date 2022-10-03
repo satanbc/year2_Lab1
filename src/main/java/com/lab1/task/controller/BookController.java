@@ -1,6 +1,7 @@
 package com.lab1.task.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.lab1.task.Entities.Author;
@@ -11,6 +12,7 @@ import com.lab1.task.service.AuthorService;
 import com.lab1.task.service.BookService;
 import com.lab1.task.service.CharacterService;
 import com.lab1.task.service.SeriesService;
+import com.lab1.task.sorting.Sorting;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -37,8 +39,6 @@ public class BookController {
 		this.authorService = authorService;
 		this.characterService = characterService;
 	}
-	
-	// add mapping for "/list"
 
 	@GetMapping("/list")
 	public String listBooks(Model theModel){
@@ -64,14 +64,28 @@ public class BookController {
 		return "books/book-form";
 	}
 
-	@GetMapping("/showFormForUpdate")
-	public String showFormForUpdate(@RequestParam("bookId") int theId, Model theModel){
+	@GetMapping("/showFormForSort")
+	public String showFormForSort(Model theModel){
 
-		Book theBook = bookService.findById(theId);
+		List<Book> bookList = bookService.findAll();
 
-		theModel.addAttribute("book", theBook);
+		theModel.addAttribute("books", bookList);
 
-		return "books/book-form";
+		return "books/book-sort";
+	}
+
+	@GetMapping("/sortByRating")
+	public String sortByRating(Model theModel){
+		Book theBook = new Book();
+		theModel.addAttribute("books", theBook);
+
+		Book[] array = bookService.findAll().toArray(new Book[0]);
+
+		Sorting sort = new Sorting(array);
+
+		sort.quickSort(array, 0, array.length-1);
+		sort.print();
+		return "redirect:books/book-list";
 	}
 
 	@PostMapping("/save")
@@ -85,7 +99,7 @@ public class BookController {
 		Series series = new Series("Not in any series");
 		Series tempSeriesObject = null;
 
-		List<Integer> characterIdList = new ArrayList<>();
+		List<Integer> characterIdList1 = new ArrayList<>();
 		List<Character> characterList = new ArrayList<>();
 
 
@@ -108,10 +122,15 @@ public class BookController {
 		try{
 			Query<Integer> query2 = session.createQuery("select character.id from Character character where character.role=:role");
 			query2 = query2.setParameter("role", "main");
-			characterIdList = query2.getResultList();
+			characterIdList1 = query2.getResultList();
+
+			query2 = query2.setParameter("role", "secondary");
+			List<Integer> characterIdList2 = query2.getResultList();
+
+			characterIdList1.addAll(characterIdList2);
 		}catch (NoResultException e){}
 
-		for (int m : characterIdList){
+		for (int m : characterIdList1){
 			characterList.add(characterService.findById(m));
 		}
 
@@ -137,7 +156,7 @@ public class BookController {
 
 		if (isMainCharacterNew) {
 			for (int t = 0; t < theBook.getCharacters().size(); t++) {
-				if (theBook.getCharacters().get(t).getRole().equals("main")) {
+				if (theBook.getCharacters().get(t).getRole().equals("main") || theBook.getCharacters().get(t).getRole().equals("secondary")) {
 					String name = theBook.getCharacters().get(t).getName();
 					series = new Series(name + " adventures");
 					tempAuthor.addSeries(series);
