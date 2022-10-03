@@ -34,7 +34,6 @@ public class BookServiceImpl implements BookService {
 			theBook = result.get();
 		}
 		else {
-			// we didn't find the book
 			throw new RuntimeException("Did not find book id - " + theId);
 		}
 
@@ -51,6 +50,10 @@ public class BookServiceImpl implements BookService {
 		bookRepository.deleteById(theId);
 	}
 
+	@Override
+	public List<Book> getByKeyword(String keyword){
+		return bookRepository.findByKeyword(keyword);
+	}
 }
 
 

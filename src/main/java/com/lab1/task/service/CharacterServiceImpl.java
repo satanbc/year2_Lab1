@@ -35,7 +35,6 @@ public class CharacterServiceImpl implements CharacterService {
 			theCharacter = result.get();
 		}
 		else {
-			// we didn't find the character
 			throw new RuntimeException("Did not find character id - " + theId);
 		}
 

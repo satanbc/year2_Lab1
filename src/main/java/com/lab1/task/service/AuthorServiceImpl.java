@@ -33,7 +33,6 @@ public class AuthorServiceImpl implements AuthorService {
 			theAuthor = result.get();
 		}
 		else {
-			// we didn't find the author
 			throw new RuntimeException("Did not find author id - " + theId);
 		}
 

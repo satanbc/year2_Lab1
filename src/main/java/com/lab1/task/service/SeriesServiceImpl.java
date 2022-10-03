@@ -35,7 +35,6 @@ public class SeriesServiceImpl implements SeriesService {
 			theSeries = result.get();
 		}
 		else {
-			// we didn't find the book
 			throw new RuntimeException("Did not find series id - " + theId);
 		}
 

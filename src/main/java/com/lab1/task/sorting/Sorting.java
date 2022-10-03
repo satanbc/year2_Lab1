@@ -3,6 +3,7 @@ package com.lab1.task.sorting;
 import com.lab1.task.Entities.Book;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class Sorting {
     Book[] array;
@@ -26,7 +27,96 @@ public class Sorting {
         }
     }
 
+    public void insertionSort(Book[] array)
+    {
+        int n = array.length;
+        for (int i = 1; i < n; ++i) {
+            Book key = array[i];
+            int j = i - 1;
 
+            while (j >= 0 && array[j].getRating() > key.getRating()) {
+                array[j + 1] = array[j];
+                j = j - 1;
+            }
+            array[j + 1] = key;
+        }
+        invertUsingFor(array);
+    }
+
+    public void quickSort(Book[] array, int leftBorder, int rightBorder) {
+        int leftMarker = leftBorder;
+        int rightMarker = rightBorder;
+        Book pivot = array[(leftMarker + rightMarker) / 2];
+        do {
+
+            while (array[leftMarker].getRating() > pivot.getRating()) {
+                leftMarker++;
+            }
+
+            while (array[rightMarker].getRating() < pivot.getRating()) {
+                rightMarker--;
+            }
+
+            if (leftMarker <= rightMarker) {
+
+                if (leftMarker < rightMarker) {
+                    Book tmp = array[leftMarker];
+                    array[leftMarker] = array[rightMarker];
+                    array[rightMarker] = tmp;
+                }
+
+                leftMarker++;
+                rightMarker--;
+            }
+        } while (leftMarker <= rightMarker);
+
+        if (leftMarker < rightBorder) {
+            quickSort(array, leftMarker, rightBorder);
+        }
+        if (leftBorder < rightMarker) {
+            quickSort(array, leftBorder, rightMarker);
+        }
+    }
+
+    public void mergeSort(Book[] array, int n) {
+        if (n < 2) {
+            return;
+        }
+        int mid = n / 2;
+        Book[] l = new Book[mid];
+        Book[] r = new Book[n - mid];
+
+        for (int i = 0; i < mid; i++) {
+            l[i] = array[i];
+        }
+        for (int i = mid; i < n; i++) {
+            r[i - mid] = array[i];
+        }
+        mergeSort(l, mid);
+        mergeSort(r, n - mid);
+
+        merge(array, l, r, mid, n - mid);
+    }
+
+    public void merge(Book[] a, Book[] l, Book[] r, int left, int right) {
+
+        int i = 0, j = 0, k = 0;
+        while (i < left && j < right) {
+            if (l[i].getRating() <= r[j].getRating()) {
+                a[k++] = l[i++];
+            }
+            else {
+                a[k++] = r[j++];
+            }
+        }
+        while (i < left) {
+            a[k++] = l[i++];
+        }
+        while (j < right) {
+            a[k++] = r[j++];
+        }
+        invertUsingFor(array);
+    }
 
     public void selectionSort(Book[] array){
         System.out.println(Arrays.toString(array));
@@ -64,18 +154,17 @@ public class Sorting {
     public void shellSort(Book[] array){
         System.out.println(Arrays.toString(array));
         int gap = array.length / 2;
-        // Пока разница между элементами есть
+
         while (gap >= 1) {
             for (int right = 0; right < array.length; right++) {
-                // Смещаем правый указатель, пока не сможем найти такой, что
-                // между ним и элементом до него не будет нужного промежутка
+
                 for (int c = right - gap; c >= 0; c -= gap) {
                     if (array[c].getRating() > array[c + gap].getRating()) {
                         swap(array, c, c + gap);
                     }
                 }
             }
-            // Пересчитываем разрыв
+
             gap = gap / 2;
         }
         invertUsingFor(array);
@@ -83,44 +172,5 @@ public class Sorting {
     }
 
 
-    public void quickSort(Book[] array, int leftBorder, int rightBorder) {
-        int leftMarker = leftBorder;
-        int rightMarker = rightBorder;
-        Book pivot = array[(leftMarker + rightMarker) / 2];
-        do {
-            // Двигаем левый маркер слева направо пока элемент меньше, чем pivot
-            while (array[leftMarker].getRating() < pivot.getRating()) {
-                leftMarker++;
-            }
-            // Двигаем правый маркер, пока элемент больше, чем pivot
-            while (array[rightMarker].getRating() > pivot.getRating()) {
-                rightMarker--;
-            }
-            // Проверим, не нужно обменять местами элементы, на которые указывают маркеры
-            if (leftMarker <= rightMarker) {
-                // Левый маркер будет меньше правого только если мы должны выполнить swap
-                if (leftMarker < rightMarker) {
-                    Book tmp = array[leftMarker];
-                    array[leftMarker] = array[rightMarker];
-                    array[rightMarker] = tmp;
-                }
-                // Сдвигаем маркеры, чтобы получить новые границы
-                leftMarker++;
-                rightMarker--;
-            }
-        } while (leftMarker <= rightMarker);
 
-        // Выполняем рекурсивно для частей
-        if (leftMarker < rightBorder) {
-            quickSort(array, leftMarker, rightBorder);
-        }
-        if (leftBorder < rightMarker) {
-            quickSort(array, leftBorder, rightMarker);
-        }
-
-    }
-    public void print(){
-        invertUsingFor(array);
-        System.out.println(Arrays.toString(array));
-    }
 }

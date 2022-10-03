@@ -5,8 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CharacterRepository extends JpaRepository<Character, Integer> {
 
-	// that's it ... no need to write any code LOL!
-
 }
 
 

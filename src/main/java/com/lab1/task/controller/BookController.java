@@ -1,7 +1,6 @@
 package com.lab1.task.controller;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.lab1.task.Entities.Author;
@@ -74,18 +73,15 @@ public class BookController {
 		return "books/book-sort";
 	}
 
-	@GetMapping("/sortByRating")
-	public String sortByRating(Model theModel){
-		Book theBook = new Book();
-		theModel.addAttribute("books", theBook);
-
-		Book[] array = bookService.findAll().toArray(new Book[0]);
-
-		Sorting sort = new Sorting(array);
-
-		sort.quickSort(array, 0, array.length-1);
-		sort.print();
-		return "redirect:books/book-list";
+	@RequestMapping(path = {"/books/list","/search"})
+	public String search(Model theModel, String keyword) {
+		if(keyword!=null) {
+			List<Book> books = bookService.getByKeyword(keyword);
+			theModel.addAttribute("books", books);
+		}else {
+			List<Book> books = bookService.findAll();
+			theModel.addAttribute("books", books);}
+		return "books/search-books";
 	}
 
 	@PostMapping("/save")
@@ -208,6 +204,76 @@ public class BookController {
 		}
 
 		return "redirect:/books/list";
+	}
+
+
+
+	@GetMapping("/insertionSort")
+	public String insertionSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.insertionSort(booksArray);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
+	}
+	@GetMapping("/quickSort")
+	public String quickSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.quickSort(booksArray, 0, booksArray.length-1);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
+	}
+
+	@GetMapping("/mergeSort")
+	public String mergeSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.mergeSort(booksArray, booksArray.length);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
+	}
+	@GetMapping("/selectionSort")
+	public String selectionSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.selectionSort(booksArray);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
+	}
+	@GetMapping("/shuttleSort")
+	public String shuttleSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.shuttleSort(booksArray);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
+	}
+	@GetMapping("/shellSort")
+	public String shellSort(Model theModel){
+		Book[] booksArray = bookService.findAll().toArray(new Book[0]);
+		Sorting sort = new Sorting(booksArray);
+
+		sort.shellSort(booksArray);
+
+		theModel.addAttribute("booksArray", booksArray);
+
+		return "books/list-books-sorted";
 	}
 }
 
