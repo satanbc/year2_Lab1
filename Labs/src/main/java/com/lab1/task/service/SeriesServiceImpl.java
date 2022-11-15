@@ -1,8 +1,6 @@
 package com.lab1.task.service;
 
-import com.lab1.task.Entities.Book;
 import com.lab1.task.Entities.Series;
-import com.lab1.task.dao.BookRepository;
 import com.lab1.task.dao.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

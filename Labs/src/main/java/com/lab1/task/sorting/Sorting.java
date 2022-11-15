@@ -3,7 +3,6 @@ package com.lab1.task.sorting;
 import com.lab1.task.Entities.Book;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class Sorting {
     Book[] array;
