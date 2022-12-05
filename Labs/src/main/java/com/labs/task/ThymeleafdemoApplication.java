@@ -1,4 +1,4 @@
-package com.lab1.labs;
+package com.labs.task;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
