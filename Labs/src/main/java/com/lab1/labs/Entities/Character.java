@@ -1,4 +1,4 @@
-package com.lab1.task.Entities;
+package com.lab1.labs.Entities;
 
 import javax.persistence.*;
 import java.util.List;

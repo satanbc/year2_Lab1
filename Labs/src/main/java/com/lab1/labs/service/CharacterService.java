@@ -1,6 +1,6 @@
-package com.lab1.task.service;
+package com.lab1.labs.service;
 
-import com.lab1.task.Entities.Character;
+import com.lab1.labs.Entities.Character;
 
 import java.util.List;
 

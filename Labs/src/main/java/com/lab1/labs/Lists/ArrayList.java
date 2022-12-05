@@ -1,4 +1,4 @@
-package com.lab1.task.Lists;
+package com.lab1.labs.Lists;
 
 public class ArrayList<T> {
     private final int INIT_SIZE = 16;
